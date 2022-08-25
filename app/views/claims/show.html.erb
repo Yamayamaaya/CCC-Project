@@ -1,3 +1,5 @@
+
+<!DOCTYPE html>
 <h3>詳細</h3>
 
 <div class="parent_claim">
@@ -97,4 +99,145 @@
 </div>
 
 <%= link_to "一覧に戻る", claims_path %>
-<%= link_to "一覧に戻る", claims_path %>
+<h1>こっからテスト</h1>
+
+
+<meta charset="utf-8">
+
+<style>
+    .links line {
+        stroke: #999;
+        stroke-opacity: 0.6;
+    }
+    .nodes circle {
+        stroke: #fff;
+        stroke-width: 1.5px;
+    }
+    .nodes rect {
+        stroke: #fff;
+        stroke-width: 1.0px;
+    }
+</style>
+
+<svg width="960" height="600"></svg>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script>
+    var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height");
+    // const _aaaa = d3.json("list");
+    // console.log(_aaaa);
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    var simulation = d3.forceSimulation()
+        // .force("link", d3.forceLink().id(function(d) { return d.id; }))
+        // .force("charge", d3.forceManyBody())
+        // .force("center", d3.forceCenter(width / 2, height / 2));
+        .force("link", d3.forceLink().id(function(d) { return d.id; }))
+        .force("charge", d3.forceManyBody().strength(-3000))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("x", d3.forceX().x(width / 2).strength(0.1))  //x方向に戻る力
+        .force("y", d3.forceY().y(height / 2).strength(0.1))  //y方向に戻る力;
+
+    d3.json("list").then(function(graph) {
+    // d3.json("<%= asset_path('miserables.json') %>").then(function(graph) {
+        // if (error) throw error;
+
+        var link = svg.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(graph.links)
+            .enter().append("line")
+            .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+        // var node = svg.append("g")
+        //     .attr("class", "nodes")
+        //     .selectAll("circle")
+        //     .data(graph.nodes)
+        //     .enter().append("circle")
+        //     .attr("r", 5)
+        //     .attr("fill", function(d) { return color(d.group); })
+        //     .call(d3.drag()
+        //         .on("start", dragstarted)
+        //         .on("drag", dragged)
+        //         .on("end", dragended));
+
+        var nodebase = svg.append("g");
+        var node = nodebase
+            .attr("class", "nodes")
+            .selectAll("rect")
+            .data(graph.nodes)
+            .enter().append("rect")
+            .attr("width", 60)
+            .attr("height", 20)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .attr("fill", function(d) { return color(d.group); })
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+        node.append("title")
+            .text(function(d) { return d.id; });
+
+        var nodetext = nodebase
+            .selectAll("text")
+            .data(graph.nodes)
+            .enter()
+            .append("text")
+            .attr("font-size", "10px")
+            .attr("dx", 2)
+            .attr("dy", 2)
+            .text('こめんと')
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+        simulation
+            .nodes(graph.nodes)
+            .on("tick", ticked);
+
+        simulation.force("link")
+            .links(graph.links);
+
+        function ticked() {
+            link
+                .attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; });
+
+            // node
+            //     .attr("cx", function(d) { return d.x; })
+            //     .attr("cy", function(d) { return d.y; });
+
+            node
+                .attr("x", function(d) { return d.x -30; })
+                .attr("y", function(d) { return d.y -10; });
+
+            nodetext
+                .attr("x", function(d) { return d.x - 30; })
+                .attr("y", function(d) { return d.y - 10 + 10; });
+        }
+    });
+
+    function dragstarted(event) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
+    }
+
+    function dragged(event) {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
+    }
+
+    function dragended(event) {
+        if (!event.active) simulation.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
+    }
+</script>
