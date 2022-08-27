@@ -1,6 +1,7 @@
 <h3>新規投稿</h3>
 <%= form_for @claim do |f| %>
     <div class="field">
+        <%= f.hidden_field :parent_id, :value => 0%>
         <%= f.label :title %>
         <%= f.text_field :title, :size => 140 %>
     </div>

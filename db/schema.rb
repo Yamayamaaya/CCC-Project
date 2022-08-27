@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_22_025143) do
+ActiveRecord::Schema.define(version: 2022_08_26_172541) do
 
   create_table "claims", force: :cascade do |t|
     t.string "title"
@@ -29,13 +29,6 @@ ActiveRecord::Schema.define(version: 2022_08_22_025143) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["claim_id"], name: "index_likes_on_claim_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
-  end
-
-  create_table "parent_children", force: :cascade do |t|
-    t.integer "parent_id"
-    t.integer "child_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "questions", force: :cascade do |t|
