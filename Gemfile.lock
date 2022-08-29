@@ -222,6 +222,10 @@ GEM
       nokogiri (~> 1.8)
     zeitwerk (2.6.0)
 
+PLATFORMS
+  arm64-darwin-20
+  ruby
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap (>= 1.4.4)
