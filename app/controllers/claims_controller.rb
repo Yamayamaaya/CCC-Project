@@ -2,7 +2,12 @@ class ClaimsController < ApplicationController
     
     before_action :authenticate_user!
     def index
-        @claims = Claim.where(parent_id:0)
+        
+        
+        @claims = Claim.where(parent_id:0) 
+
+        # find_all {|k,v| k >= 3 }
+
     end
 
     def new
@@ -19,11 +24,11 @@ class ClaimsController < ApplicationController
     end
 
     def findChildren(nodeid)
-        logger.debug('-------------------------------------------')
         if Claim.exists?(parent_id:nodeid)
             @claimNChildren = Claim.where(parent_id:nodeid)
+
             @claimNChildren.each do |c|
-                @@nodes.push({"id" => c.id,"title" => c.title,"size" => c.likes.count,"group" => 1})
+                @@nodes.push({"id" => c.id,"title" => c.title,"size" => c.likes.count,"user" => c.user.name,"group" => 1})
                 @@links.push({"source" => nodeid, "target" => c.id, "lineWidth" => 1})
                 findChildren(c.id)
             end
@@ -52,7 +57,7 @@ class ClaimsController < ApplicationController
         # claimNChildrenArray = []
         @@nodes = []
         @@links = []
-        @@nodes.push({"id" => @claim.id,"title" => @claim.title,"size" => @claim.likes.count,"group" => 0})
+        @@nodes.push({"id" => @claim.id,"title" => @claim.title,"size" => @claim.likes.count * 5,"user" => @claim.user.name,"group" => 0})
         findChildren(@claim.id)
         # while Claim.exists?(parent_id:claimN.id) do
         #     @claimNChildren = Claim.where(parent_id:claimN.id)
@@ -102,7 +107,6 @@ class ClaimsController < ApplicationController
         # nodes_pass = @@nodes
         data = {
             "nodes": @@nodes,
-
             # [
             # {"id": "Myriel", "group": 1},
             # {"id": "Napoleon", "group": 1},
@@ -111,11 +115,10 @@ class ClaimsController < ApplicationController
             # {"id": "CountessdeLo", "group": 1},
             # {"id": "Geborand", "group": 1},
             # ]
-
             "links": @@links
             # [
                 # {"source": 1, "target":2, "lineWidth": 1},
-                #  {"source": 1, "target":2, "value": 1},
+                # {"source": 1, "target":2, "value": 1},
                 # {"source": "Napoleon", "target": "Mlle.Baptistine", "value": 1},
                 # {"source": "Napoleon", "target": "Mme.Magloire", "value": 1},
                 # {"source": "Mlle.Baptistine", "target": "CountessdeLo", "value": 1},
