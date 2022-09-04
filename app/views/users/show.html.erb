@@ -7,7 +7,7 @@
     <%= link_to "編集する", edit_user_registration_path %>
 <% end %>
 
-<h2>ユーザーの投稿一覧</h2>
+<h4>ユーザーの投稿一覧</h4>
 <% @user. claims.each do |t| %>
     <%= t.user.name %>
     <%= t.title %>
@@ -15,7 +15,7 @@
 
 <!-- 以下はいいね機能を実装している場合-->
 
-<h2>ユーザーがいいねした投稿一覧</h2>
+<h4>ユーザーがいいねした投稿一覧</h4>
 <% @user.liked_claims.each do |t| %>
     <%= t.user.name %>
     <%= t.title %>
