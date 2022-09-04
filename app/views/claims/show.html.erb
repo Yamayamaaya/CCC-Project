@@ -20,9 +20,9 @@
     <% end %>
         <%= t.created_at %>
         <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
-        <%= link_to "詳細へ", claim_path(t.id) %>
+        <%= link_to "詳細へ", claim_path(t.id),class:"btn btn-primary" %>
     <% if user_signed_in? && current_user.id == t.user_id %>  
-        <%= link_to "編集する", edit_claim_path(t.id) %>
+        <%= link_to "編集する", edit_claim_path(t.id),class:"btn btn-primary" %>
     <% end %>
     <br>
 <% end %>
@@ -69,7 +69,7 @@
     <div>
         <%= d.title %>
         <%= d.user.name %>
-        <%= link_to "詳細へ", claim_path(d.id) %>
+        <%= link_to "詳細へ", claim_path(d.id),class:"btn btn-primary" %>
     </div>
         <br>
     <% end %>
@@ -98,7 +98,7 @@
     <% end %>   
 </div>
 
-<%= link_to "一覧に戻る", claims_path %>
+<%= link_to "一覧に戻る", claims_path,class:"btn btn-primary" %>
 
 <h1>マップを読み込めない場合はページをリロードしてください。</h1> 
 

@@ -1,7 +1,7 @@
-<%= link_to "新規投稿ページへ", new_claim_path %>
+<%= link_to "新規投稿ページへ", new_claim_path,class:"btn btn-primary" %>
 
 <h3>一覧</h3>
-<div class="claims-container">
+<div class="table">
     <% @claims.each do |t| %>
     <div class="claim">
         <%= t.title %>
@@ -20,16 +20,15 @@
         <% end %>
             <%= t.created_at %>
             <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
-            <%= link_to "詳細へ", claim_path(t.id) %>
+            <%= link_to "詳細へ", claim_path(t.id),class:"btn btn-primary" %>
         <% if user_signed_in? && current_user.id == t.user_id %>  
-            <%= link_to "編集する", edit_claim_path(t.id) %>
+            <%= link_to "編集する", edit_claim_path(t.id),class:"btn btn-primary" %>
         <% end %> 
     </div>
     <% end %>
-    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
     <% if user_signed_in? %>
-        <%= link_to "マイページへ", user_path(current_user.id) %>　
-<%= link_to "一覧に戻る", claims_path %>
+        <%= link_to "マイページへ", user_path(current_user.id),class:"btn btn-primary"%>　
+    <%= link_to "一覧に戻る", claims_path, class:"btn btn-primary" %>
 
     <% end %>
 </div>

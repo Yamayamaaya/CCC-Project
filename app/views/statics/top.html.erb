@@ -3,12 +3,12 @@
 <h3>トップ</h3>
 <%
 =begin%>
- <h1>下のボタンを押すとアラートが表示されます</h1>
+<h1>下のボタンを押すとアラートが表示されます</h1>
     <button onclick="clickBtn();">ボタンを押してください</button>
 <br> 
 <%
 =end%>
-<%= link_to "ログイン", claims_path %>
-<%= link_to "新規登録", new_user_registration_path %>
-<%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-<%= link_to "一覧に戻る", claims_path %>
+<%= link_to "ログイン", claims_path,class:"btn btn-primary" %>
+<%= link_to "新規登録", new_user_registration_path,,class:"btn btn-primary" %>
+<%= button_to 'ログアウト', destroy_user_session_path, method: :delete,class:"btn btn-primary" %>
+<%= link_to "一覧に戻る", claims_path,class:"btn btn-primary" %>
